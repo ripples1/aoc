@@ -1,0 +1,19 @@
+
+
+[       |--------|-------------|  |-----|  |--|           |---|             ]
+[----]  [----]  [--]  [----] [-------]    [-----] [----]  [-----] [--]
+        [----------------------------]
+        [-|------|-------------|---|-]
+                         [--------------------------]
+
+n = 1
+range.start, range.end
+
+n = 2
+f map, range = range.start, map.end
+l map, range = map.start, range.end
+
+n > 2
+f map, range = range.start, map.end
+n map, range = map.start, map.end
+l map, range = map.start, range.end
