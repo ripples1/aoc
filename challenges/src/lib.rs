@@ -21,6 +21,8 @@ pub fn run(input: &str, challenge: &str) -> i64 {
     "2023/8/2" => _2023::d08::part_2(input),
     "2023/9/1" => _2023::d09::part_1(input),
     "2023/9/2" => _2023::d09::part_2(input),
+    "2023/10/1" => _2023::d10::part_1(input),
+    "2023/10/2" => _2023::d10::part_2(input),
     _ => panic!("Bad challenge path")
   }
 }
