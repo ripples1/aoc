@@ -14,6 +14,8 @@ impl Coord {
   const fn normal(&self) -> Self {
     Coord::new(-self.y, self.x)
   }
+
+  const ZERO: Self = Coord::new(0, 0);
 }
 
 impl std::ops::Add for Coord {
@@ -62,12 +64,9 @@ impl DirMarker {
   const fn new(in_dir: Coord, out_dir: Coord) -> Self {
     DirMarker { in_dir, out_dir }
   }
-}
 
-const DIR_MARKER_ZERO: DirMarker = DirMarker::new(
-  Coord::new(0, 0),
-  Coord::new(0, 0)
-);
+  const ZERO: Self = DirMarker::new(Coord::ZERO, Coord::ZERO);
+}
 
 #[derive(Debug)]
 struct Field {
@@ -104,7 +103,7 @@ impl Field {
       height: height as isize,
       pipes: chars,
       loop_markers: vec!['.'; width * height],
-      dir_markers: vec![DIR_MARKER_ZERO; width * height],
+      dir_markers: vec![DirMarker::ZERO; width * height],
       convex_f_point: Coord::new((width - 1) as isize, (height - 1) as isize),
     }
   }
