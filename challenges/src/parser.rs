@@ -5,7 +5,7 @@ use nom::{
   IResult,
 };
 
-pub fn ws_line<'a, F: 'a, O, E: ParseError<&'a str>>(
+pub fn ws_line<'a, F, O, E: ParseError<&'a str>>(
   inner: F,
 ) -> impl FnMut(&'a str) -> IResult<&'a str, O, E>
 where
@@ -14,7 +14,7 @@ where
   delimited(space0, inner, space0)
 }
 
-pub fn ws<'a, F: 'a, O, E: ParseError<&'a str>>(
+pub fn ws<'a, F, O, E: ParseError<&'a str>>(
   inner: F,
 ) -> impl FnMut(&'a str) -> IResult<&'a str, O, E>
 where

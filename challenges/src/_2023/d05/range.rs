@@ -46,7 +46,7 @@ impl RangeMapping {
     }
   }
 
-  pub fn from_vec(vec: &Vec<i64>) -> RangeMapping {
+  pub fn from_vec(vec: &[i64]) -> RangeMapping {
     let [dst, src, len] = vec[..] else {
       panic!("Invalid range mapping");
     };
@@ -81,7 +81,7 @@ impl Ord for RangeMapping {
 
 impl PartialOrd for RangeMapping {
   fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-    self.range.start.partial_cmp(&other.range.start)
+    Some(self.cmp(other))
   }
 }
 
