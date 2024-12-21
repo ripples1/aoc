@@ -3,7 +3,7 @@ use std::{collections::HashSet, fmt::Debug};
 type Num = u32;
 
 fn is_not_empty_str(s: &&str) -> bool {
-  s.len() != 0
+  !s.is_empty()
 }
 
 fn parse_set(input: &str) -> HashSet<Num> {
@@ -60,7 +60,7 @@ impl Card {
   fn score(&self) -> Num {
     match self.matches {
       0 => 0,
-      m => (2 as Num).pow((m - 1) as u32),
+      m => (2 as Num).pow(m - 1),
     }
   }
 }

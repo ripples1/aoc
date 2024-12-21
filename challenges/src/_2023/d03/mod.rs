@@ -29,8 +29,8 @@ fn hash_numbers(lines: &Vec<&str>) -> NumHashMap {
     }
 
     for (j, c) in line.chars().enumerate() {
-      if c.is_digit(10) {
-        if let None = start {
+      if c.is_ascii_digit() {
+        if start.is_none() {
           start = Some(j);
         }
         end = j;
@@ -45,7 +45,7 @@ fn hash_numbers(lines: &Vec<&str>) -> NumHashMap {
 }
 
 fn is_part_symbol(c: &char) -> bool {
-  !(c.is_digit(10) || *c == '.')
+  !(c.is_ascii_digit() || *c == '.')
 }
 
 #[derive(Debug)]
@@ -109,7 +109,7 @@ fn extract_parts(lines: &Vec<&str>, hash: &NumHashMap) -> Vec<Part> {
           }
         }
       }
-      if part.values.len() > 0 {
+      if !part.values.is_empty() {
         parts.push(part);
       }
     }

@@ -66,7 +66,7 @@ impl<'a> Graph<'a> {
       .map(|n| follow_path(&self.edges, n, ends_with_z, path))
       .collect::<Vec<_>>();
     let (x, xs) = cycles.split_at(1);
-    xs.into_iter()
+    xs.iter()
       .fold(x[0], |acc, x| num::Integer::lcm(&acc, x))
   }
 }

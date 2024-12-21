@@ -324,7 +324,7 @@ impl Field {
 
         (res[0], res[1])
       }
-      c @ _ => panic!("Invalid direction: {}", c),
+      c => panic!("Invalid direction: {}", c),
     }
   }
 

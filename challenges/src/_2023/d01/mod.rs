@@ -8,10 +8,10 @@ pub fn part_1(input: &str) -> i64 {
     sum +=
       format!(
         "{}{}",
-        line.chars().find(|c| c.is_digit(10)).expect(
+        line.chars().find(|c| c.is_ascii_digit()).expect(
           "Invariant violated: expected that there is at least one digit in the input line"
         ),
-        line.chars().rfind(|c| c.is_digit(10)).expect(
+        line.chars().rfind(|c| c.is_ascii_digit()).expect(
           "Invariant violated: expected that there is at least one digit in the input line"
         )
       )

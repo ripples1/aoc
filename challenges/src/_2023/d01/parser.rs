@@ -81,7 +81,7 @@ fn run_reverse_pass(input: &str) -> Option<&'static str> {
 }
 
 pub fn run_match(input: &str) -> Option<i64> {
-  if input.len() == 0 {
+  if input.is_empty() {
     return None;
   }
 
@@ -95,7 +95,7 @@ pub fn run_match(input: &str) -> Option<i64> {
 }
 
 const N_WORDS: usize = 18;
-const MAP_FORWARD_PASS: [(&'static str, &'static str); N_WORDS] = [
+const MAP_FORWARD_PASS: [(&str, &str); N_WORDS] = [
   ("one", "1"),
   ("two", "2"),
   ("three", "3"),
@@ -116,7 +116,7 @@ const MAP_FORWARD_PASS: [(&'static str, &'static str); N_WORDS] = [
   ("9", "9"),
 ];
 
-const MAP_REVERSE_PASS: [(&'static str, &'static str); N_WORDS] = [
+const MAP_REVERSE_PASS: [(&str, &str); N_WORDS] = [
   ("eno", "1"),
   ("owt", "2"),
   ("eerht", "3"),

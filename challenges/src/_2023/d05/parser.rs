@@ -23,7 +23,7 @@ impl Map<'_> {
   pub fn new(name: &str, ranges: Vec<Vec<i64>>) -> Map {
     let mappings = match ranges.len() {
       0 => BTreeSet::from([RangeMapping::new(0..i64::MAX, 0)]),
-      len @ _ => {
+      len => {
         let mut mappings = match len {
           1 => BTreeSet::from([RangeMapping::from_vec(&ranges[0])]),
           _ => ranges

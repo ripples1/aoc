@@ -13,7 +13,7 @@ fn hand_type(cards: [u8; 5]) -> Type {
   match cards.into_iter().filter(is_a_joker).count() {
     0 => hand_type_from_count_map(&count_map(cards.into_iter())),
     4 | 5 => Type::FiveOfAKind,
-    jokers @ _ => {
+    jokers => {
       let map = count_map(cards.into_iter().filter(is_not_a_joker));
       let max = *map.values().max().unwrap() as usize; // safe to unwrap
       match jokers + max {
