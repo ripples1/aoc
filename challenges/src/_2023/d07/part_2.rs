@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use super::hand::{count_map, hand_type_from_count_map, Hand, Type};
+use std::collections::HashMap;
 
 fn is_a_joker(c: &u8) -> bool {
   *c == 1
@@ -11,20 +11,16 @@ fn is_not_a_joker(c: &u8) -> bool {
 
 fn hand_type(cards: [u8; 5]) -> Type {
   match cards.into_iter().filter(is_a_joker).count() {
-    0 => hand_type_from_count_map(
-      &count_map(cards.into_iter())
-    ),
+    0 => hand_type_from_count_map(&count_map(cards.into_iter())),
     4 | 5 => Type::FiveOfAKind,
-    jokers@_ => {
+    jokers @ _ => {
       let map = count_map(cards.into_iter().filter(is_not_a_joker));
       let max = *map.values().max().unwrap() as usize; // safe to unwrap
       match jokers + max {
         2 => Type::OnePair,
-        3 => {
-          match map.len() {
-            2 => Type::FullHouse,
-            _ => Type::ThreeOfAKind,
-          }
+        3 => match map.len() {
+          2 => Type::FullHouse,
+          _ => Type::ThreeOfAKind,
         },
         4 => Type::FourOfAKind,
         _ => Type::FiveOfAKind,
@@ -61,7 +57,7 @@ pub const fn card_value(c: char) -> u8 {
     'Q' => 12,
     'K' => 13,
     'A' => 14,
-    _ => panic!("Bad card")
+    _ => panic!("Bad card"),
   }
 }
 
@@ -80,6 +76,6 @@ pub const fn value_card(c: u8) -> char {
     12 => 'Q',
     13 => 'K',
     14 => 'A',
-    _ => panic!("Bad card")
+    _ => panic!("Bad card"),
   }
 }

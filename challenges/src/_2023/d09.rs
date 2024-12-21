@@ -27,9 +27,17 @@ fn prev_item(history: &[i64]) -> i64 {
 }
 
 pub fn part_1(input: &str) -> i64 {
-  input.lines().map(parse_number_list).map(|h| next_item(h.as_slice())).sum()
+  input
+    .lines()
+    .map(parse_number_list)
+    .map(|h| next_item(h.as_slice()))
+    .sum()
 }
 
 pub fn part_2(input: &str) -> i64 {
-  input.lines().map(parse_number_list).map(|h| prev_item(h.as_slice())).sum()
+  input
+    .lines()
+    .map(parse_number_list)
+    .map(|h| prev_item(h.as_slice()))
+    .sum()
 }

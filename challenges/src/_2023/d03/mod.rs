@@ -13,7 +13,13 @@ fn hash_numbers(lines: &Vec<&str>) -> NumHashMap {
     let mut start: Option<usize> = None;
     let mut end = 0;
 
-    fn token_end(maybe_start: Option<usize>, end: usize, line: &str, hash: &mut NumHashMap, row: usize) {
+    fn token_end(
+      maybe_start: Option<usize>,
+      end: usize,
+      line: &str,
+      hash: &mut NumHashMap,
+      row: usize,
+    ) {
       if let Some(start) = maybe_start {
         let value = line[start..end].parse::<Num>().unwrap();
         for col in start..end {
@@ -50,7 +56,10 @@ struct Part {
 
 impl Part {
   fn empty(symbol: char) -> Part {
-    Part { symbol, values: Vec::new() }
+    Part {
+      symbol,
+      values: Vec::new(),
+    }
   }
 
   fn add_value(&mut self, value: Num) {
@@ -81,16 +90,17 @@ fn extract_parts(lines: &Vec<&str>, hash: &NumHashMap) -> Vec<Part> {
         // Check middle column first
         for j in [icol, icol - 1, icol + 1].into_iter() {
           // Skip if out of bounds
-          if i < 0 || j < 0 || i >= lines.len() as isize || j >= width as isize {
+          if i < 0 || j < 0 || i >= lines.len() as isize || j >= width as isize
+          {
             continue;
           }
           // Skip if we are at the symbol itself
           if i == irow && j == icol {
             continue;
           }
-          if let Some(value) = hash.get(
-            &linear_index(i as usize, j as usize, width)
-          ) {
+          if let Some(value) =
+            hash.get(&linear_index(i as usize, j as usize, width))
+          {
             part.add_value(*value);
             // If there is a number in the middle, left and right are not possible
             if j == icol {
@@ -118,7 +128,8 @@ pub fn part_2(input: &str) -> i64 {
   let lines: Vec<&str> = input.lines().collect();
   let hash = hash_numbers(&lines);
   let parts = extract_parts(&lines, &hash);
-  parts.iter()
+  parts
+    .iter()
     .filter(|part| part.symbol == '*' && part.values.len() == 2)
     .map(|part| part.product() as i64)
     .sum()

@@ -9,7 +9,7 @@ struct Cli {
 
   /// Challenge path to run. Example: "2023/1/1"
   #[arg(short, long)]
-  challenge: PathBuf
+  challenge: PathBuf,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -21,4 +21,3 @@ fn main() -> Result<(), Box<dyn Error>> {
   println!("{}", challenges::run(&contents, challenge));
   Ok(())
 }
-

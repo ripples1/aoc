@@ -1,10 +1,8 @@
-use std::collections::HashMap;
 use super::hand::{count_map, hand_type_from_count_map, Hand, Type};
+use std::collections::HashMap;
 
 fn hand_type(cards: [u8; 5]) -> Type {
-  hand_type_from_count_map(
-    &count_map(cards.into_iter())
-  )
+  hand_type_from_count_map(&count_map(cards.into_iter()))
 }
 
 impl Hand {
@@ -35,7 +33,7 @@ pub const fn card_value(c: char) -> u8 {
     'Q' => 12,
     'K' => 13,
     'A' => 14,
-    _ => panic!("Bad card")
+    _ => panic!("Bad card"),
   }
 }
 
@@ -54,6 +52,6 @@ pub const fn value_card(c: u8) -> char {
     12 => 'Q',
     13 => 'K',
     14 => 'A',
-    _ => panic!("Bad card")
+    _ => panic!("Bad card"),
   }
 }

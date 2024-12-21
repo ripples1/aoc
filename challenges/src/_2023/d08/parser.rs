@@ -1,10 +1,13 @@
 use nom::{
   branch::alt,
-  bytes::complete::{ tag, take_while },
-  character::{ complete::{ alpha1, space0 }, streaming::multispace0 },
-  combinator::{ complete, opt },
+  bytes::complete::{tag, take_while},
+  character::{
+    complete::{alpha1, space0},
+    streaming::multispace0,
+  },
+  combinator::{complete, opt},
   multi::many1,
-  sequence::{ delimited, separated_pair, terminated, tuple },
+  sequence::{delimited, separated_pair, terminated, tuple},
   IResult,
 };
 
@@ -28,7 +31,7 @@ fn node_connections(s: &str) -> IResult<&str, NodeConnections> {
   delimited(
     tag("("),
     separated_pair(node_name, terminated(tag(","), space0), node_name),
-    tag(")")
+    tag(")"),
   )(s)
 }
 
@@ -37,9 +40,9 @@ fn node(s: &str) -> IResult<&str, Node> {
     separated_pair(
       node_name,
       delimited(space0, tag("="), space0),
-      node_connections
+      node_connections,
     ),
-    opt(complete(multispace0))
+    opt(complete(multispace0)),
   )(s)
 }
 
@@ -47,7 +50,9 @@ fn node_list(s: &str) -> IResult<&str, Vec<Node>> {
   many1(node)(s)
 }
 
-pub fn parser(s: &str) -> Result<(&str, Vec<Node>), nom::Err<nom::error::Error<&str>>> {
+pub fn parser(
+  s: &str,
+) -> Result<(&str, Vec<Node>), nom::Err<nom::error::Error<&str>>> {
   let (_, result) = tuple((path, node_list))(s)?;
   Ok(result)
 }

@@ -129,13 +129,16 @@ impl Field {
     println!();
     for y in 0..self.height {
       for x in 0..self.width {
-        print!("{}", match self.get_dir(Coord::new(x, y)).unwrap().out_dir {
-          Coord { x: 0, y: -1 } => '^',
-          Coord { x: 1, y: 0 } => '>',
-          Coord { x: 0, y: 1 } => 'v',
-          Coord { x: -1, y: 0 } => '<',
-          _ => '.',
-        });
+        print!(
+          "{}",
+          match self.get_dir(Coord::new(x, y)).unwrap().out_dir {
+            Coord { x: 0, y: -1 } => '^',
+            Coord { x: 1, y: 0 } => '>',
+            Coord { x: 0, y: 1 } => 'v',
+            Coord { x: -1, y: 0 } => '<',
+            _ => '.',
+          }
+        );
       }
       println!();
     }
@@ -164,16 +167,16 @@ impl Field {
   }
 
   /*
- Default direction - counter-clockwise
-  F - 7
-  |   |
-  L - J
- */
+  Default direction - counter-clockwise
+   F - 7
+   |   |
+   L - J
+  */
 
   fn compute_dir_markers(&mut self) {
     self.set_dir(
       self.convex_f_point,
-      DirMarker::new(Coord::new(1, 0), Coord::new(0, 1))
+      DirMarker::new(Coord::new(1, 0), Coord::new(0, 1)),
     );
     let mut prev_coord = self.convex_f_point;
     let mut current_coord = self.convex_f_point + Coord::new(0, 1);
@@ -182,7 +185,7 @@ impl Field {
       let next_coord = if n0 == prev_coord { n1 } else { n0 };
       self.set_dir(
         current_coord,
-        DirMarker::new(prev_coord - current_coord, next_coord - current_coord)
+        DirMarker::new(prev_coord - current_coord, next_coord - current_coord),
       );
       if next_coord == self.convex_f_point || self.get(next_coord).is_none() {
         break;
@@ -221,10 +224,8 @@ impl Field {
       }
       if self.is_main_loop(next) {
         let dir = self.get_dir(next).unwrap();
-        return !(
-          dir.out_dir.normal() + next == current ||
-          -dir.in_dir.normal() + next == current
-        );
+        return !(dir.out_dir.normal() + next == current
+          || -dir.in_dir.normal() + next == current);
       }
       current = next;
     }
@@ -233,8 +234,16 @@ impl Field {
   fn direction_to_the_closest_edge(&self, coord: Coord) -> Coord {
     let dir_x = if coord.x < self.width / 2 { -1 } else { 1 };
     let dir_y = if coord.y < self.height / 2 { -1 } else { 1 };
-    let dist_x = if dir_x == -1 { coord.x } else { self.width - coord.x };
-    let dist_y = if dir_y == -1 { coord.y } else { self.height - coord.y };
+    let dist_x = if dir_x == -1 {
+      coord.x
+    } else {
+      self.width - coord.x
+    };
+    let dist_y = if dir_y == -1 {
+      coord.y
+    } else {
+      self.height - coord.y
+    };
     if dist_x < dist_y {
       Coord::new(dir_x, 0)
     } else {
@@ -256,18 +265,30 @@ impl Field {
 
   fn neighbours(&self, coord: Coord) -> (Coord, Coord) {
     match self.get(coord).expect("Invalid coord") {
-      '|' =>
-        (Coord::new(coord.x, coord.y - 1), Coord::new(coord.x, coord.y + 1)),
-      '-' =>
-        (Coord::new(coord.x - 1, coord.y), Coord::new(coord.x + 1, coord.y)),
-      'F' =>
-        (Coord::new(coord.x, coord.y + 1), Coord::new(coord.x + 1, coord.y)),
-      '7' =>
-        (Coord::new(coord.x - 1, coord.y), Coord::new(coord.x, coord.y + 1)),
-      'J' =>
-        (Coord::new(coord.x, coord.y - 1), Coord::new(coord.x - 1, coord.y)),
-      'L' =>
-        (Coord::new(coord.x, coord.y - 1), Coord::new(coord.x + 1, coord.y)),
+      '|' => (
+        Coord::new(coord.x, coord.y - 1),
+        Coord::new(coord.x, coord.y + 1),
+      ),
+      '-' => (
+        Coord::new(coord.x - 1, coord.y),
+        Coord::new(coord.x + 1, coord.y),
+      ),
+      'F' => (
+        Coord::new(coord.x, coord.y + 1),
+        Coord::new(coord.x + 1, coord.y),
+      ),
+      '7' => (
+        Coord::new(coord.x - 1, coord.y),
+        Coord::new(coord.x, coord.y + 1),
+      ),
+      'J' => (
+        Coord::new(coord.x, coord.y - 1),
+        Coord::new(coord.x - 1, coord.y),
+      ),
+      'L' => (
+        Coord::new(coord.x, coord.y - 1),
+        Coord::new(coord.x + 1, coord.y),
+      ),
       'S' => {
         let mut res = Vec::with_capacity(2);
 
@@ -276,16 +297,28 @@ impl Field {
         let coord_south = Coord::new(coord.x, coord.y + 1);
         let coord_west = Coord::new(coord.x - 1, coord.y);
 
-        if self.get(coord_north).is_some_and(|v| CONNECTORS_NORTH.contains(&v)) {
+        if self
+          .get(coord_north)
+          .is_some_and(|v| CONNECTORS_NORTH.contains(&v))
+        {
           res.push(coord_north);
         }
-        if self.get(coord_east).is_some_and(|v| CONNECTORS_EAST.contains(&v)) {
+        if self
+          .get(coord_east)
+          .is_some_and(|v| CONNECTORS_EAST.contains(&v))
+        {
           res.push(coord_east);
         }
-        if self.get(coord_south).is_some_and(|v| CONNECTORS_SOUTH.contains(&v)) {
+        if self
+          .get(coord_south)
+          .is_some_and(|v| CONNECTORS_SOUTH.contains(&v))
+        {
           res.push(coord_south);
         }
-        if self.get(coord_west).is_some_and(|v| CONNECTORS_WEST.contains(&v)) {
+        if self
+          .get(coord_west)
+          .is_some_and(|v| CONNECTORS_WEST.contains(&v))
+        {
           res.push(coord_west);
         }
 
@@ -296,10 +329,10 @@ impl Field {
   }
 
   fn bound_check(&self, coord: Coord) -> bool {
-    coord.x >= 0 &&
-      coord.x < self.width &&
-      coord.y >= 0 &&
-      coord.y < self.height
+    coord.x >= 0
+      && coord.x < self.width
+      && coord.y >= 0
+      && coord.y < self.height
   }
 
   fn linear_addr(&self, coord: Coord) -> usize {

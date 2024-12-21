@@ -1,6 +1,6 @@
+use std::cmp::Ordering;
 use std::fmt::Debug;
 use std::ops::Range;
-use std::cmp::Ordering;
 
 #[derive(Clone, Copy)]
 pub struct ValueRange {
@@ -10,10 +10,7 @@ pub struct ValueRange {
 
 impl ValueRange {
   pub fn new(start: i64, end: i64) -> ValueRange {
-    ValueRange {
-      start,
-      end,
-    }
+    ValueRange { start, end }
   }
 
   pub fn iter(&self) -> impl Iterator<Item = i64> {
@@ -57,31 +54,22 @@ impl RangeMapping {
   }
 
   pub fn apply_single(&self, range: ValueRange) -> ValueRange {
-    ValueRange::new(
-      range.start + self.offset,
-      range.end + self.offset
-    )
+    ValueRange::new(range.start + self.offset, range.end + self.offset)
   }
 
   pub fn apply_first(&self, range: ValueRange) -> ValueRange {
-    ValueRange::new(
-      range.start + self.offset,
-      self.range.end + self.offset
-    )
+    ValueRange::new(range.start + self.offset, self.range.end + self.offset)
   }
 
   pub fn apply_middle(&self, range: ValueRange) -> ValueRange {
     ValueRange::new(
       self.range.start + self.offset,
-      self.range.end + self.offset
+      self.range.end + self.offset,
     )
   }
 
   pub fn apply_last(&self, range: ValueRange) -> ValueRange {
-    ValueRange::new(
-      self.range.start + self.offset,
-      range.end + self.offset
-    )
+    ValueRange::new(self.range.start + self.offset, range.end + self.offset)
   }
 }
 

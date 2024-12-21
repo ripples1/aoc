@@ -28,14 +28,14 @@ pub fn hand_type_from_count_map(map: &HashMap<u8, i32>) -> Type {
       } else {
         Type::TwoPair
       }
-    },
+    }
     2 => {
       if map.values().any(|&v| v == 4) {
         Type::FourOfAKind
       } else {
         Type::FullHouse
       }
-    },
+    }
     _ => Type::FiveOfAKind,
   }
 }
@@ -68,8 +68,7 @@ impl PartialEq for Hand {
   fn eq(&self, other: &Self) -> bool {
     if self._type != other._type {
       false
-    }
-    else {
+    } else {
       self.cards == other.cards
     }
   }
@@ -81,8 +80,7 @@ impl Ord for Hand {
   fn cmp(&self, other: &Self) -> std::cmp::Ordering {
     if self._type != other._type {
       self._type.cmp(&other._type)
-    }
-    else {
+    } else {
       self.cards.cmp(&other.cards)
     }
   }
@@ -99,9 +97,11 @@ impl core::fmt::Debug for Hand {
     let _fn = match self.ver {
       1 => super::part_1::value_card,
       2 => super::part_2::value_card,
-      _ => panic!("Bad hand version")
+      _ => panic!("Bad hand version"),
     };
-    write!(f, "{}({:?})",
+    write!(
+      f,
+      "{}({:?})",
       self.cards.map(_fn).iter().collect::<String>(),
       self._type as u8
     )
